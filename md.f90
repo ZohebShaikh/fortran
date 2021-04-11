@@ -1,10 +1,10 @@
 program md
     implicit none
     real(KIND=8), dimension (216,3) :: positions
-    integer :: i,j,count,index
-    real :: r
+    integer :: count,index
     integer :: flag
-    real(kind=8) :: rho , L, distance,distance_temp
+    real(kind=8) :: rho , L, distance
+    
     rho = 0.5
     L = real((216/rho) ** real(1./3.))
     print * , L
