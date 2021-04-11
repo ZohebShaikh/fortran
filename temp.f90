@@ -1,11 +1,17 @@
 program calling_func
 
+    real :: r
     real :: a
     a = area_of_circle(2.0) 
-    
-    Print *, "The area of a circle with radius 2.0 is"
-    Print *, a
-    
+    ! Print *, "The area of a circle with radius 2.0 is"
+    ! Print *, a
+    print *,r
+    call random_number(r)
+    print *, r
+    do index = 1, 1
+        print * ,index
+        
+    end do
  end program calling_func
  
  
