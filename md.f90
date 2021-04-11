@@ -6,9 +6,9 @@ program md
     real :: r
     integer :: flag
     real(kind=8) :: rho , L, distance_squared,distance_temp
-    
-    L = 7.56
     rho = 0.5
+    L = real((216/rho) ** real(1./3.))
+    print * , L
     count = 2
     positions(1,1)=  rand() * L
     positions(1,2)=rand() * L
@@ -16,14 +16,11 @@ program md
     flag =0 
     distance(1)  = positions(1,1)**2 + positions(1,2)**2 + positions(1,3)**2
     do while (2>1)
-        call random_number(r)
-        positions(count,1)=  r * L
-        call random_number(r)
-        positions(count,2)= r  * L
-        call random_number(r)
-        positions(count,3)= r * L
+        positions(count,1)=  rand() * L
+        positions(count,2)= rand() * L
+        positions(count,3)= rand() * L
+        distance_temp = (positions(count,1)**2 + positions(count,2)**2 + positions(count,3)**2)
         do index = 1, count
-            distance_temp = (positions(count,1)**2 + positions(count,2)**2 + positions(count,3)**2)
             distance_squared = abs (distance(index)-  distance_temp)
             if ( distance_squared < 1 ) then
                 flag = 10
@@ -36,11 +33,16 @@ program md
         end if 
         flag = 0
         print *, count
-        if (count == 216) then
+        if (count == 100) then
             exit
         end if 
     end do
-    print *,  positions
+    do index = 1, 216
+        print *,index
+        print *,  positions(index,1)
+        print *,  positions(index,2)
+        print *,  positions(index,3)
+    end do
 end program md
 
 ! recursive subroutine check_particles(end,positions )
