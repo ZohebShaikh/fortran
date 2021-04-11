@@ -1,11 +1,10 @@
 program md
     implicit none
     real(KIND=8), dimension (216,3) :: positions
-    real(KIND=8),dimension(216) :: distance
     integer :: i,j,count,index
     real :: r
     integer :: flag
-    real(kind=8) :: rho , L, distance_squared,distance_temp
+    real(kind=8) :: rho , L, distance,distance_temp
     rho = 0.5
     L = real((216/rho) ** real(1./3.))
     print * , L
@@ -14,26 +13,24 @@ program md
     positions(1,2)=rand() * L
     positions(1,3)=rand() * L
     flag =0 
-    distance(1)  = positions(1,1)**2 + positions(1,2)**2 + positions(1,3)**2
     do while (2>1)
         positions(count,1)=  rand() * L
         positions(count,2)= rand() * L
         positions(count,3)= rand() * L
-        distance_temp = (positions(count,1)**2 + positions(count,2)**2 + positions(count,3)**2)
         do index = 1, count
-            distance_squared = abs (distance(index)-  distance_temp)
-            if ( distance_squared < 1 ) then
+            distance = ((positions(index,1) - positions(count,1))**2 + (positions(index,1) - positions(count,2))**2 )
+            distance = distance + (positions(index,1) - positions(count,3))**2
+            if ( distance < 1 ) then
                 flag = 10
                 exit
             end if  
         end do
         if (flag == 0) then 
-            distance(count) = distance_temp
             count = count  + 1
         end if 
         flag = 0
         print *, count
-        if (count == 100) then
+        if (count == 217) then
             exit
         end if 
     end do
