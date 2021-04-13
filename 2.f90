@@ -2,7 +2,7 @@ program force
     implicit none
     real (kind=8) :: f_c, v_c ,r_c, Uabp,dx,dy,dz,L,rho,rij2,rij2inv,rij6,fijx,fijy,fijz,distance,T,Ke,E
     real(KIND=8), dimension (216,3) :: position, f_now
-    integer :: i,j,flag,index,count,Kb
+    integer :: i,j,flag,index,count,Kb,x,y,z
     rho = 0.5
     L = real((216/rho) ** real(1./3.))
     r_c = 2.5
@@ -11,34 +11,48 @@ program force
     T = 0.728
     Kb = 1 
     ! print * , L
-    count = 2
-    position(1,1)=  rand() * L
-    position(1,2)=rand() * L
-    position(1,3)=rand() * L
-    flag =0 
-    do while (2>1)
-        position(count,1)=  rand() * L
-        position(count,2)= rand() * L
-        position(count,3)= rand() * L
-        do index = 1, count-1
-            ! print *,"count" , count 
-            ! print *, "index",index
-            distance = ((position(index,1) - position(count,1))**2 + (position(index,1) - position(count,2))**2 )
-            distance = distance + (position(index,1) - position(count,3))**2
-            if ( distance <= 1 ) then
-                flag = 10
-                exit
-            end if  
+    ! count = 2
+    ! position(1,1)=  rand() * L
+    ! position(1,2)=rand() * L
+    ! position(1,3)=rand() * L
+    ! flag =0 
+    ! do while (2>1)
+    !     position(count,1)=  rand() * L
+    !     position(count,2)= rand() * L
+    !     position(count,3)= rand() * L
+    !     do index = 1, count-1
+    !         ! print *,"count" , count 
+    !         ! print *, "index",index
+    !         distance = ((position(index,1) - position(count,1))**2 + (position(index,2) - position(count,2))**2 )
+    !         distance = distance + (position(index,3) - position(count,3))**2
+    !         if ( distance <= 1 ) then
+    !             flag = 10
+    !             exit
+    !         end if  
+    !     end do
+    !     ! print *, "End do"
+    !     if (count == 217) then
+    !         exit
+    !     end if 
+    !     if (flag == 0) then 
+    !         count = count  + 1
+    !     end if 
+    !     flag = 0
+    !     ! print *, count
+    ! end do
+
+    do x = 0 , 5
+        do y = 0, 5
+            do z = 0, 5
+                position(index,1) = x /( rho ** (1./3.))
+                position(index,2) = y /( rho ** (1./3.))
+                position(index,3) = z /( rho ** (1./3.))
+                index = index  + 1
+            end do
         end do
-        ! print *, "End do"
-        if (count == 217) then
-            exit
-        end if 
-        if (flag == 0) then 
-            count = count  + 1
-        end if 
-        flag = 0
-        ! print *, count
+    end do
+    do index = 1, 216
+        ! print *,  position(index,1)," ",position(index,2)," ",position(index,3)
     end do
     ! do index = 1, 216
         ! print *,  position(index,1)," ",position(index,2)," ",position(index,3)
@@ -83,6 +97,7 @@ program force
                 f_now(j,1)= f_now(j,1) + (-fijx)                             ! Force on particles j due to i (Newton's 3 law)
                 f_now(j,2)= f_now(j,2) + (-fijy)
                 f_now(j,3)= f_now(j,3) + (-fijz)
+                print * ,(4.0 * rij6 * (rij6-1.0) )+ f_c * sqrt(rij2)- v_c
                 Uabp = Uabp + (4.0 * rij6 * (rij6-1.0) )+ f_c * sqrt(rij2)- v_c                ! Potential Energy
             end if
         end do

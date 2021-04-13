@@ -20,8 +20,8 @@ program md
         do index = 1, count-1
             ! print *,"count" , count 
             ! print *, "index",index
-            distance = ((positions(index,1) - positions(count,1))**2 + (positions(index,1) - positions(count,2))**2 )
-            distance = distance + (positions(index,1) - positions(count,3))**2
+            distance = ((positions(index,1) - positions(count,1))**2 + (positions(index,2) - positions(count,2))**2 )
+            distance = distance + (positions(index,3) - positions(count,3))**2
             if ( distance < 1 ) then
                 flag = 10
                 exit
